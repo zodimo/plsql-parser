@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/antlr4-go/antlr/v4"
-	plsqlparser "github.com/bytebase/plsql-parser"
 	"github.com/stretchr/testify/require"
+	plsqlparser "github.com/zodimo/plsql-parser"
 )
 
 type CustomErrorListener struct {
