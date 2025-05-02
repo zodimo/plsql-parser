@@ -342,6 +342,14 @@ func (s *BasePlSqlParserListener) EnterAlter_hierarchy(ctx *Alter_hierarchyConte
 // ExitAlter_hierarchy is called when production alter_hierarchy is exited.
 func (s *BasePlSqlParserListener) ExitAlter_hierarchy(ctx *Alter_hierarchyContext) {}
 
+// EnterEditionable_noneditionable is called when production editionable_noneditionable is entered.
+func (s *BasePlSqlParserListener) EnterEditionable_noneditionable(ctx *Editionable_noneditionableContext) {
+}
+
+// ExitEditionable_noneditionable is called when production editionable_noneditionable is exited.
+func (s *BasePlSqlParserListener) ExitEditionable_noneditionable(ctx *Editionable_noneditionableContext) {
+}
+
 // EnterAlter_function is called when production alter_function is entered.
 func (s *BasePlSqlParserListener) EnterAlter_function(ctx *Alter_functionContext) {}
 

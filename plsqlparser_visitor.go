@@ -160,6 +160,9 @@ type PlSqlParserVisitor interface {
 	// Visit a parse tree produced by PlSqlParser#alter_hierarchy.
 	VisitAlter_hierarchy(ctx *Alter_hierarchyContext) interface{}
 
+	// Visit a parse tree produced by PlSqlParser#editionable_noneditionable.
+	VisitEditionable_noneditionable(ctx *Editionable_noneditionableContext) interface{}
+
 	// Visit a parse tree produced by PlSqlParser#alter_function.
 	VisitAlter_function(ctx *Alter_functionContext) interface{}
 

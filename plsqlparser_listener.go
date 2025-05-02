@@ -160,6 +160,9 @@ type PlSqlParserListener interface {
 	// EnterAlter_hierarchy is called when entering the alter_hierarchy production.
 	EnterAlter_hierarchy(c *Alter_hierarchyContext)
 
+	// EnterEditionable_noneditionable is called when entering the editionable_noneditionable production.
+	EnterEditionable_noneditionable(c *Editionable_noneditionableContext)
+
 	// EnterAlter_function is called when entering the alter_function production.
 	EnterAlter_function(c *Alter_functionContext)
 
@@ -3753,6 +3756,9 @@ type PlSqlParserListener interface {
 
 	// ExitAlter_hierarchy is called when exiting the alter_hierarchy production.
 	ExitAlter_hierarchy(c *Alter_hierarchyContext)
+
+	// ExitEditionable_noneditionable is called when exiting the editionable_noneditionable production.
+	ExitEditionable_noneditionable(c *Editionable_noneditionableContext)
 
 	// ExitAlter_function is called when exiting the alter_function production.
 	ExitAlter_function(c *Alter_functionContext)

@@ -468,8 +468,14 @@ alter_hierarchy
     : ALTER HIERARCHY (schema_name '.')? hn=id_expression (RENAME TO nhn=id_expression | COMPILE)
     ;
 
+
+// EDITIONABLE NONEDITIONABLE
+editionable_noneditionable
+    : {p.isVersion12()}? (EDITIONABLE | NONEDITIONABLE)
+    ;
+
 alter_function
-    : ALTER FUNCTION function_name COMPILE DEBUG? compiler_parameters_clause* (REUSE SETTINGS)? ';'
+    : ALTER FUNCTION function_name ((COMPILE DEBUG? compiler_parameters_clause* (REUSE SETTINGS)?)|editionable_noneditionable?) ';'
     ;
 
 // https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/ALTER-JAVA.html
@@ -485,7 +491,7 @@ match_string
     ;
 
 create_function_body
-    : CREATE (OR REPLACE)? FUNCTION function_name ('(' parameter (',' parameter)* ')')?
+    : CREATE (OR REPLACE)? editionable_noneditionable? FUNCTION function_name ('(' parameter (',' parameter)* ')')?
       RETURN type_spec (invoker_rights_clause | parallel_enable_clause | result_cache_clause | DETERMINISTIC)*
       ((PIPELINED? (IS | AS) (DECLARE? seq_of_declare_specs? body | call_spec))
         | (PIPELINED | AGGREGATE) USING implementation_type_name
@@ -598,15 +604,15 @@ drop_package
     ;
 
 alter_package
-    : ALTER PACKAGE package_name COMPILE DEBUG? (PACKAGE | BODY | SPECIFICATION)? compiler_parameters_clause* (REUSE SETTINGS)? ';'
+    : ALTER PACKAGE package_name ((COMPILE DEBUG? (PACKAGE | BODY | SPECIFICATION)? compiler_parameters_clause* (REUSE SETTINGS)?)|editionable_noneditionable?) ';'
     ;
 
 create_package
-    : CREATE (OR REPLACE)? PACKAGE (schema_object_name '.')? package_name invoker_rights_clause? (IS | AS) package_obj_spec* END package_name? ';'
+    : CREATE (OR REPLACE)? editionable_noneditionable? PACKAGE (schema_object_name '.')? package_name invoker_rights_clause? (IS | AS) package_obj_spec* END package_name? ';'
     ;
 
 create_package_body
-    : CREATE (OR REPLACE)? PACKAGE BODY (schema_object_name '.')? package_name (IS | AS) package_obj_body* (BEGIN seq_of_statements)? END package_name? ';'
+    : CREATE (OR REPLACE)? editionable_noneditionable? PACKAGE BODY (schema_object_name '.')? package_name (IS | AS) package_obj_body* (BEGIN seq_of_statements)? END package_name? ';'
     ;
 
 // Create Package Specific Clauses
@@ -666,7 +672,7 @@ drop_procedure
     ;
 
 alter_procedure
-    : ALTER PROCEDURE procedure_name COMPILE DEBUG? compiler_parameters_clause* (REUSE SETTINGS)? ';'
+    : ALTER PROCEDURE procedure_name ((COMPILE DEBUG? compiler_parameters_clause* (REUSE SETTINGS)?)|editionable_noneditionable?) ';'
     ;
 
 function_body
@@ -681,7 +687,7 @@ procedure_body
     ;
 
 create_procedure_body
-    : CREATE (OR REPLACE)? PROCEDURE procedure_name ('(' parameter (',' parameter)* ')')?
+    : CREATE (OR REPLACE)? editionable_noneditionable? PROCEDURE procedure_name ('(' parameter (',' parameter)* ')')?
       invoker_rights_clause? (IS | AS)
       (DECLARE? seq_of_declare_specs? body | call_spec | EXTERNAL) ';'
     ;
@@ -745,11 +751,11 @@ drop_trigger
 
 alter_trigger
     : ALTER TRIGGER alter_trigger_name=trigger_name
-      ((ENABLE | DISABLE) | RENAME TO rename_trigger_name=trigger_name | COMPILE DEBUG? compiler_parameters_clause* (REUSE SETTINGS)?) ';'
+      ((ENABLE | DISABLE) | RENAME TO rename_trigger_name=trigger_name | COMPILE DEBUG? compiler_parameters_clause* (REUSE SETTINGS)?|editionable_noneditionable?) ';'
     ;
 
 create_trigger
-    : CREATE ( OR REPLACE )? TRIGGER trigger_name
+    : CREATE ( OR REPLACE )? editionable_noneditionable? TRIGGER trigger_name
       (simple_dml_trigger | compound_dml_trigger | non_dml_trigger)
       trigger_follows_clause? (ENABLE | DISABLE)? trigger_when_clause? trigger_body ';'
     ;
@@ -856,7 +862,8 @@ drop_type
 
 alter_type
     : ALTER TYPE type_name
-    (compile_type_clause
+    (editionable_noneditionable
+    |compile_type_clause
     | replace_type_clause
     //TODO | {input.LT(2).getText().equalsIgnoreCase("attribute")}? alter_attribute_definition
     | alter_method_spec
@@ -906,7 +913,7 @@ dependent_exceptions_part
     ;
 
 create_type
-    : CREATE (OR REPLACE)? TYPE (type_definition | type_body) ';'
+    : CREATE (OR REPLACE)? editionable_noneditionable? TYPE (type_definition | type_body) ';'
     ;
 
 // Create Type Specific Clauses
@@ -2544,7 +2551,7 @@ create_java
     ;
 
 create_library
-    : CREATE (OR REPLACE)? (EDITIONABLE | NONEDITIONABLE)? LIBRARY plsql_library_source
+    : CREATE (OR REPLACE)? editionable_noneditionable? LIBRARY plsql_library_source
     ;
 
 plsql_library_source

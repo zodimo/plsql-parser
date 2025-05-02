@@ -211,6 +211,10 @@ func (v *BasePlSqlParserVisitor) VisitAlter_hierarchy(ctx *Alter_hierarchyContex
 	return v.VisitChildren(ctx)
 }
 
+func (v *BasePlSqlParserVisitor) VisitEditionable_noneditionable(ctx *Editionable_noneditionableContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BasePlSqlParserVisitor) VisitAlter_function(ctx *Alter_functionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
